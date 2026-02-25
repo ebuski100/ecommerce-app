@@ -1,10 +1,10 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 
 export async function GET(
-  request: Request,
-  { params }: { params: { id: string } },
+  request: NextRequest,
+  context: { params: Promise<{ id: string }> },
 ) {
-  const { id } = await params;
+  const { id } = await context.params;
   const res = await fetch(`https://dummyjson.com/products/${id}`);
 
   if (!res.ok) {
