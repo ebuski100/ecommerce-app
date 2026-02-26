@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ChevronLeft, Share2 } from "lucide-react";
-
+import { Share2 } from "lucide-react";
+import GoBack from "./GoBack";
+import Share from "@/components/Share";
 const scrollToSection = (id: string) => {
   const el = document.getElementById(id);
   if (!el) return;
@@ -73,9 +74,9 @@ export default function SmartHeader() {
       }`}
     >
       {/* Top Bar */}
-      <div className="flex justify-between items-center p-4">
-        <ChevronLeft size={22} />
-        <Share2 size={22} />
+      <div className="flex justify-between items-center p-4 ">
+        <GoBack />
+        <Share className="text-gray-700 absolute top-2 right-1" />
       </div>
 
       {/* Section Tabs */}
