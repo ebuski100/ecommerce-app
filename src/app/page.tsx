@@ -59,6 +59,7 @@ const Home = () => {
     { id: 5, img: "/psd.jfif" },
     { id: 6, img: "/summersale.jfif" },
     { id: 7, img: "/type.jfif" },
+    { id: 8, img: "/userInfo folder.jpg" },
   ];
 
   return (
