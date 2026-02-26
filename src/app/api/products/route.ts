@@ -1,15 +1,12 @@
 import { NextResponse } from "next/server";
+import { getProducts } from "@/lib/products";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const category = searchParams.get("category");
-
-  const url = category
-    ? `https://dummyjson.com/products/category/${category}`
-    : `https://dummyjson.com/products`;
+  const category = searchParams.get("category") || undefined;
 
   try {
-    const res = await fetch(url);
+    const res = await getProducts(category);
 
     if (!res.ok) {
       return NextResponse.json(

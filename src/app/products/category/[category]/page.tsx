@@ -1,26 +1,6 @@
 import React from "react";
 import Image from "next/image";
-
-type Product = {
-  id: number;
-  title: string;
-  price: number;
-  images: string[];
-  description: string;
-};
-
-async function fetchProductsByCategory(category: string): Promise<Product[]> {
-  try {
-    const res = await fetch(
-      `https://dummyjson.com/products/category/${category}`,
-    );
-    if (!res.ok) return [];
-    const data = await res.json();
-    return data.products || [];
-  } catch {
-    return [];
-  }
-}
+import { fetchProductsByCategory } from "@/lib/products";
 
 export default async function CategoryPage({
   params,

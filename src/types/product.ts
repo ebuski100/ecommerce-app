@@ -14,3 +14,8 @@ export type Review = {
   reviewerName: string;
   reviewerEmail: string;
 };
+
+export type Category = {
+  slug: string;
+  name: string;
+};

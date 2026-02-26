@@ -3,53 +3,13 @@ import Image from "next/image";
 import { Camera, Search } from "lucide-react";
 import SideNav from "@/components/SideNav";
 import Link from "next/link";
-type Product = {
-  id: number;
-  title: string;
-  price: number;
-  images: string[];
-  thumbnail: string;
-  description: string;
-};
 
-type Category = {
-  slug: string;
-  name: string;
-};
-
-async function fetchProducts(category?: string): Promise<Product[]> {
-  const base = process.env.NEXT_PUBLIC_BASE_URL || "";
-  const url = category
-    ? `${base}/api/products/category/${category}`
-    : `${base}/api/products`;
-
-  try {
-    const res = await fetch(url, { cache: "no-store" });
-
-    if (!res.ok) return [];
-
-    const data = await res.json();
-    return data.products || [];
-  } catch (error) {
-    return [];
-  }
-}
-
-async function fetchCategories(): Promise<Category[]> {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL || ""}/api/categories`,
-    { cache: "no-store" },
-  );
-
-  const data = await res.json();
-
-  return data;
-}
+import { getCategories, getSpecProduct } from "@/lib/products";
 
 const Shop = async (category: string) => {
-  const products = await fetchProducts();
+  const products = await getSpecProduct();
   console.log(products);
-  const categories = await fetchCategories();
+  const categories = await getCategories();
 
   console.log(categories);
   return (

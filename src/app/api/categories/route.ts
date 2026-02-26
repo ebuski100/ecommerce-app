@@ -1,11 +1,10 @@
 import { NextResponse } from "next/server";
+import { getCategories } from "@/lib/products";
 
 export async function GET() {
   try {
-    const res = await fetch("https://dummyjson.com/products/categories");
-
+    const res = await getCategories();
     const data = await res.json();
-
     return NextResponse.json(data);
   } catch (error) {
     return NextResponse.json(

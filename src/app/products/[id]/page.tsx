@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { Product } from "@/types/product";
 
 import SmartHeader from "@/components/SmartHeader";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
@@ -10,36 +9,14 @@ import GoBack from "@/components/GoBack";
 import AnimatedCartButton from "@/components/AnimatedCartButton";
 import AnimatedHeart from "@/components/AnimatedHeart";
 import PageTransition from "@/components/PageTransition";
-async function fetchProducts(): Promise<Product[]> {
-  const base = process.env.NEXT_PUBLIC_BASE_URL || "";
-  const res = await fetch(`${base}/api/products`, {
-    cache: "no-store",
-  });
+import { fetchSingleProduct } from "@/lib/products";
+import { fetchProducts } from "@/lib/products";
 
-  if (!res.ok) return [];
-
-  const data = await res.json();
-  return data.products || [];
-}
 type PageProps = {
   params: {
     id: string;
   };
 };
-
-async function fetchSingleProduct(id: string): Promise<Product | null> {
-  const base = process.env.NEXT_PUBLIC_BASE_URL || "";
-
-  const res = await fetch(`${base}/api/products/${id}`, {
-    cache: "no-store",
-  });
-
-  if (!res.ok) return null;
-
-  const data = await res.json();
-  console.log(data);
-  return data;
-}
 
 export default async function ProductDetails({ params }: PageProps) {
   const { id } = await params;
