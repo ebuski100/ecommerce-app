@@ -12,7 +12,7 @@ type Props = {
 
 export default function SideNav({ categories, activeCategory }: Props) {
   return (
-    <aside className="fixed top-16 left-0 w-40 md:w-40  h-[calc(100vh-2rem)] border-r border-gray-300 px-2 bg-white overflow-y-auto overscroll-contain  pb-40">
+    <aside className="fixed top-16 left-0 w-40 md:w-40  h-[calc(100vh-2rem)] px-2 bg-white border-r border-gray-300 overflow-y-auto overscroll-contain  pb-40">
       <h2 className="font-bold mb-1 sticky  top-0 left-0 right-0 z-50 py-2   bg-white">
         Categories
       </h2>

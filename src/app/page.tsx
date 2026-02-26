@@ -1,56 +1,22 @@
 import React from "react";
 import { Zap, ChevronRight, Camera, Search } from "lucide-react";
+import FlashCountdown from "@/components/FlashCountdown";
+import { getCategories, getSpecProduct } from "@/lib/products";
 import Image from "next/image";
 
-const Home = () => {
-  const superDeals = [
-    {
-      id: 1,
-      title: "iPhone 13 Pro",
-      price: 1200,
-      image: "https://dummyjson.com/image/i/products/1/1.jpg",
-    },
-    {
-      id: 2,
-      title: "AirPods Max",
-      price: 500,
-      image: "https://dummyjson.com/image/i/products/10/1.jpg",
-    },
-    {
-      id: 3,
-      title: "Gaming Laptop",
-      price: 2000,
-      image: "https://dummyjson.com/image/i/products/6/1.png",
-    },
-    {
-      id: 4,
-      title: "Gaming Laptop",
-      price: 2000,
-      image: "https://dummyjson.com/image/i/products/6/1.png",
-    },
-    {
-      id: 5,
-      title: "Gaming Laptop",
-      price: 2000,
-      image: "https://dummyjson.com/image/i/products/6/1.png",
-    },
-    {
-      id: 6,
-      title: "Gaming Laptop",
-      price: 2000,
-      image: "https://dummyjson.com/image/i/products/6/1.png",
-    },
-  ];
-  const categories = [
-    { slug: "electronics", name: "Electronics" },
-    { slug: "clothing", name: "Clothing" },
-    { slug: "furniture", name: "Furniture" },
-    { slug: "books", name: "Books" },
-    { slug: "gaming", name: "Gaming" },
-    { slug: "toys", name: "Toys" },
-    { slug: "beauty", name: "Beauty" },
-  ];
-
+import Link from "next/link";
+import AnimatedHeart from "@/components/AnimatedHeart";
+import Footer from "@/components/Footer";
+type Category = {
+  slug: string;
+  name: string;
+};
+type Props = {
+  categories: Category[];
+  activeCategory?: string;
+};
+const Home = async ({ activeCategory }: Props) => {
+  const products = await getSpecProduct();
   const ads = [
     { id: 1, img: "/adidas.jfif" },
     { id: 2, img: "/Brand Identity.jfif" },
@@ -61,6 +27,22 @@ const Home = () => {
     { id: 7, img: "/type.jfif" },
     { id: 8, img: "/userInfo folder.jpg" },
   ];
+  const categories = await getCategories();
+
+  // 🔥 Deterministic daily random generator
+  function getDailyRandomItems<T>(items: T[], count: number) {
+    const seed = new Date().getDate(); // changes daily
+
+    // Simple seeded shuffle
+    const shuffled = [...items].sort((a, b) => {
+      const hashA = JSON.stringify(a).length + seed;
+      const hashB = JSON.stringify(b).length + seed;
+      return (hashA % 10) - (hashB % 10);
+    });
+
+    return shuffled.slice(0, count);
+  }
+  const superDeals = getDailyRandomItems(products, 6);
 
   return (
     <div className="pb-30">
@@ -88,13 +70,14 @@ const Home = () => {
           </div>
           <div className="w-full overflow-x-auto py-4">
             <div className="flex gap-4 px-2 min-w-max">
-              {categories.map((cat) => (
-                <div
+              {categories.map((cat: Category) => (
+                <Link
+                  href={`/products/category/${cat.slug}`}
                   key={cat.slug}
-                  className="flex-shrink-0 px-4 py-2 bg-gray-100 rounded-full text-sm font-medium cursor-pointer hover:bg-gray-200 transition"
+                  className={`flex-shrink-0 px-4 py-2 bg-gray-100 rounded-full text-sm font-medium cursor-pointer hover:bg-gray-200 transition ${activeCategory === cat.slug ? "text-green-600 font-semibold" : "hover-text-green-500"}`}
                 >
                   {cat.name}
-                </div>
+                </Link>
               ))}
             </div>
           </div>
@@ -141,18 +124,24 @@ const Home = () => {
       </div>
 
       <div>
-        <div className="flex flex-row justify-between p-2 active:bg-red-200/50 cursor-pointer">
-          <h1 className="font-bold text-[18px]">Super deals</h1>
-          <div className="text-red-500 flex flex-row bg-red-200/50 p-1 font-bold rounded-2xl">
-            <Zap />
-            <p>Limited time 80% off</p>
-            <ChevronRight />
+        <div className="flex flex-row justify-between p-2 acitve:bg-red-500/30">
+          <h1 className="font-bold text-[18px] flex flex-row  items-center">
+            <Zap className="fill-red-500 stroke-none mr-1" />
+            Super deals
+          </h1>
+          <div className="text-red-500 flex flex-row items-center  p-1 font-bold rounded-2xl p-2">
+            <p> 50% off</p>
+
+            <FlashCountdown />
+            <Link href={`/superDeals`}>
+              <ChevronRight className="ml-2" />
+            </Link>
           </div>
         </div>
 
-        <div className="flex gap-4 overflow-x-auto px-2 pb-4 my-4">
+        <div className="flex gap-4 overflow-x-auto px-2 pb-4 my-4  px-5">
           {superDeals.map((product) => {
-            const discountedPrice = Math.round(product.price * 0.2);
+            const discountedPrice = Math.round(product.price * 0.5);
 
             return (
               <div
@@ -160,13 +149,18 @@ const Home = () => {
                 className="min-w-[180px] bg-white rounded-xl p-3 shadow-sm relative"
               >
                 {/* 80% Badge */}
-
-                <img
-                  src={product.image}
-                  alt={product.title}
-                  className="h-28 object-contain mx-auto"
-                />
-
+                {product.images && (
+                  <div className="flex justify-center">
+                    <Image
+                      src={product.images[0]}
+                      alt={product.title}
+                      width={200}
+                      height={200}
+                      className="object-contain"
+                    />
+                  </div>
+                )}
+                <AnimatedHeart className="absolute top-5 right-5" />
                 <h2 className="text-sm font-medium mt-2 line-clamp-2">
                   {product.title}
                 </h2>
@@ -179,19 +173,13 @@ const Home = () => {
                     ${product.price}
                   </span>
 
-                  <span className=" bg-red-600 text-white text-xs px-2 py-1 rounded-md font-bold">
-                    -80%
+                  <span className=" bg-red-600 text-white text-xs px-2 py-1 rounded-lg font-bold">
+                    -50%
                   </span>
                 </div>
               </div>
             );
           })}
-          <div className="w-[150px] flex-shrink-0   flex items-center flex-col justify-center cursor-pointer ">
-            <div className="w-8 h-8 rounded-full  flex items-center border justify-center">
-              <ChevronRight size={24} />
-            </div>
-            <p>view more</p>
-          </div>
         </div>
 
         <div className="flex gap-4 overflow-y-auto px-2 pb-4 my-4 flex-col">
@@ -199,34 +187,42 @@ const Home = () => {
             <h1 className="text-[18px]">Recommended for you</h1>
             <ChevronRight size={24} />
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-2">
-            {superDeals.map((product) => {
-              return (
-                <div
-                  key={product.id}
-                  className="min-w-[120px] bg-white rounded-xl p-3 shadow-sm "
-                >
-                  <img
-                    src={product.image}
-                    alt={product.title}
-                    className="h-28 object-contain mx-auto"
-                  />
 
-                  <h2 className="text-sm font-medium mt-2 line-clamp-2">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-4">
+            {products.length === 0 ? (
+              <div className="col-span-full text-center py-10 text-gray-500 text-lg">
+                No products found.
+              </div>
+            ) : (
+              products.map((product) => (
+                <Link
+                  key={product.id}
+                  href={`/products/${product.id}`}
+                  className="rounded-lg p-3 shadow-md  m-2 cursor-pointer block relative"
+                >
+                  {product.images && (
+                    <div className="flex justify-center ">
+                      <Image
+                        src={product.images[0]}
+                        alt={product.title}
+                        width={200}
+                        height={200}
+                        className="object-contain"
+                      />
+                    </div>
+                  )}
+                  <AnimatedHeart className="top-3 right-3 absolute" />
+                  <h2 className="font-medium text-green-500 mt-2">
                     {product.title}
                   </h2>
-
-                  <div className="flex items-center gap-2 mt-1">
-                    <span className="text-gray-400 line-through text-sm">
-                      ${product.price}
-                    </span>
-                  </div>
-                </div>
-              );
-            })}
+                  <p className="text-gray-500">${product.price}</p>
+                </Link>
+              ))
+            )}
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

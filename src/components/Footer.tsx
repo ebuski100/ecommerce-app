@@ -29,7 +29,7 @@ const Footer = () => {
             >
               {item.isCenter ? (
                 <div
-                  className={`text-white p-3 rounded-4xl   shadow-md border-4 w-[120px] border-white flex flex-row items-center ${isActive ? "bg-blue-600" : "bg-gray-400"} `}
+                  className={`text-white p-3 rounded-4xl hover:scale-105 hover:bg-gray-500  shadow  w-[120px]  flex flex-row items-center ${isActive ? "bg-blue-600" : "bg-gray-400"} `}
                 >
                   <Icon className="mr-2" size={24} />
                   {item.name}...

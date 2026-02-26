@@ -75,8 +75,8 @@ export default function SmartHeader() {
     >
       {/* Top Bar */}
       <div className="flex justify-between items-center p-4 ">
-        <GoBack />
-        <Share className="text-gray-700 absolute top-2 right-1" />
+        <GoBack className="top-2 left-2" />
+        <Share className="text-gray-700 absolute top-2 right-2" />
       </div>
 
       {/* Section Tabs */}

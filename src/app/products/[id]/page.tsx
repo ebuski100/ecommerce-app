@@ -56,7 +56,7 @@ export default async function ProductDetails({ params }: PageProps) {
             <AnimatedCartButton className="top-3 right-3 flex items-center " />
             <AnimatedHeart className="bottom-3 right-3" />
 
-            <GoBack />
+            <GoBack className="top-5  left-3" />
             <span className=" absolute text-green-600 bottom-3 left-3 text-xl mt-2">
               ${product.price}
             </span>
@@ -181,11 +181,9 @@ export default async function ProductDetails({ params }: PageProps) {
           <MoretoLove products={products} />
         </div>
 
-        <div className="fixed bottom-20 mt-6  px-6 py-3 w-full bg-white z-50 left-0 right-0  flex items-center justify-center">
-          <button className="bg-black w-[80%]  text-white rounded-full py-2">
-            Place Order
-          </button>
-        </div>
+        <button className="bg-green-800 fixed bottom-25 mt-6 flex items-center w-[60px] h-[60px] justify-center  text-white rounded-full animate-bounce hover:scale-105 z-50 font-bold cursor-pointer ">
+          Order
+        </button>
 
         <ScrollToTopButton />
       </div>

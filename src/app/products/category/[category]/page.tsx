@@ -26,7 +26,7 @@ export default async function CategoryPage({
   return (
     <div className="mt-15 pb-30">
       <div className=" text-green-500 font-bold p-4 capitalize bg-white fixed top-0 left-0 right-0 shadow z-50 flex items-center">
-        <GoBack className="h-6 w-6" />
+        <GoBack className="h-6 w-6 top-5 left-3" />
 
         <h1 className="ml-8  mt-1">{resolvedParams.category}</h1>
       </div>

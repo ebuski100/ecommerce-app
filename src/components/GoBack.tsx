@@ -11,9 +11,9 @@ export default function GoBack({ className = "" }: Props) {
   return (
     <span
       onClick={() => router.push("/shop")}
-      className="absolute text-gray-600 top-2 left-1 cursor-pointer  "
+      className={`absolute text-gray-600  cursor-pointer  ${className}`}
     >
-      <ChevronLeft size={20} className={`${className}`} />
+      <ChevronLeft size={22} />
     </span>
   );
 }

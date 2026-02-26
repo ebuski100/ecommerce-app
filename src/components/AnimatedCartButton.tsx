@@ -9,27 +9,27 @@ type Props = {
 };
 export default function AnimatedCartButton({ className = "" }: Props) {
   const [clicked, setClicked] = useState(false);
-  // const [toast, setToast] = useState(false);
   const [animating, setAnimating] = useState(false);
-  const { message, showToast } = useToast();
+  const { message, type, showToast } = useToast();
 
   const handleClick = () => {
     const newState = !clicked;
     setClicked(newState);
     setAnimating(true);
 
-    // ✅ Delay the toast
     setTimeout(() => {
       if (newState) {
-        showToast("Added to Cart 🛒");
+        showToast("Added to Cart 🛒", "success");
       } else {
-        showToast("Removed from Cart ❌");
+        showToast("Removed from Cart ❌", "error");
       }
     }, 300);
+
     setTimeout(() => {
       setAnimating(false);
     }, 300);
   };
+
   return (
     <>
       <div
@@ -50,7 +50,7 @@ export default function AnimatedCartButton({ className = "" }: Props) {
         />
       </div>
 
-      <Toast message={message} />
+      <Toast message={message} type={type} />
     </>
   );
 }

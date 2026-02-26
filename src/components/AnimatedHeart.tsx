@@ -12,7 +12,7 @@ export default function AnimatedHeart({ className = "" }: Props) {
   const [liked, setLiked] = useState(false);
   const [animating, setAnimating] = useState(false);
 
-  const { message, showToast } = useToast();
+  const { message, type, showToast } = useToast();
 
   const handleClick = () => {
     const newState = !liked;
@@ -21,16 +21,16 @@ export default function AnimatedHeart({ className = "" }: Props) {
 
     setTimeout(() => {
       if (newState) {
-        showToast("Added to wishlist ❤️");
+        showToast("Added to wishlist ❤️", "success");
       } else {
-        showToast("Removed from wishlist ❌");
+        showToast("Removed from wishlist", "error");
       }
     }, 300);
+
     setTimeout(() => {
       setAnimating(false);
     }, 300);
   };
-
   return (
     <>
       <div
@@ -47,7 +47,7 @@ export default function AnimatedHeart({ className = "" }: Props) {
         />
       </div>
 
-      <Toast message={message} />
+      <Toast message={message} type={type} />
     </>
   );
 }
