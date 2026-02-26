@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import { Camera, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import SideNav from "@/components/SideNav";
 import Link from "next/link";
 
@@ -24,10 +24,6 @@ const Shop = async (category: string) => {
             className="relative w-full border rounded-[1rem] p-3 "
           />
         </div>
-        <Camera
-          className="absolute top-1/2 right-20 -translate-y-1/2 text-gray-500 cursor-pointer"
-          size={30}
-        />
 
         <Search
           size={30}
@@ -48,7 +44,7 @@ const Shop = async (category: string) => {
               <Link
                 key={product.id}
                 href={`/products/${product.id}`}
-                className="rounded-lg p-3 border m-2 cursor-pointer block"
+                className="rounded-lg p-3 shadow-md  m-2 cursor-pointer block"
               >
                 {product.images && (
                   <div className="flex justify-center">
