@@ -3,6 +3,7 @@ import Image from "next/image";
 import SmartHeader from "@/components/SmartHeader";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
 import { Bus, ChevronRight, RefreshCcw, Star } from "lucide-react";
+import { cookies } from "next/headers";
 
 import MoretoLove from "@/components/MoretoLove";
 import GoBack from "@/components/GoBack";
@@ -24,6 +25,10 @@ export default async function ProductDetails({ params }: PageProps) {
   if (!product) {
     return <div className="p-10 text-center">Product not found</div>;
   }
+  const cookieStore = await cookies();
+  const cartCookie = cookieStore.get("cart");
+
+  const cartIds: number[] = cartCookie ? JSON.parse(cartCookie.value) : [];
   const isDeal = product.isSuperDeal === true;
   const discountedPrice = Math.round(product.price * 0.2);
   const averageRating =
@@ -53,7 +58,11 @@ export default async function ProductDetails({ params }: PageProps) {
               className="object-contain "
             />
 
-            <AnimatedCartButton className="top-3 right-3 flex items-center " />
+            <AnimatedCartButton
+              isInCart={cartIds.includes(product.id)}
+              product={product}
+              className="top-3 right-3 flex items-center "
+            />
             <AnimatedHeart className="bottom-3 right-3" />
 
             <GoBack className="top-5  left-3" />
@@ -193,7 +202,7 @@ export default async function ProductDetails({ params }: PageProps) {
         </div>
 
         <div id="moretolove" className="scroll-mt-40">
-          <MoretoLove products={products} />
+          <MoretoLove products={products} cartIds={cartIds} />
         </div>
 
         <button className="bg-green-800 fixed bottom-25 mt-6 flex items-center w-[60px] h-[60px] justify-center  text-white rounded-full animate-bounce hover:scale-105 z-50 font-bold cursor-pointer ">

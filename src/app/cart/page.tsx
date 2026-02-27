@@ -1,9 +1,21 @@
 import CartUI from "../../components/CartUI";
 
-import { getCartProducts } from "@/lib/products";
+import { getCartProducts, getCartedProducts } from "@/lib/products";
+import Footer from "@/components/Footer";
 
 export default async function CartPage() {
   const products = await getCartProducts();
+  const cartedProducts = await getCartedProducts();
+  const cartIds = cartedProducts.map((p) => p.id);
 
-  return <CartUI products={products} />;
+  return (
+    <div>
+      <CartUI
+        products={products}
+        cartedProducts={cartedProducts}
+        cartIds={cartIds}
+      />
+      <Footer cartIds={cartIds} />
+    </div>
+  );
 }

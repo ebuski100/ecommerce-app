@@ -1,4 +1,5 @@
 import { Product, Category } from "@/types/product";
+import { cookies } from "next/headers";
 
 const BASE_URL = "https://dummyjson.com";
 export async function getProducts(category?: string) {
@@ -39,8 +40,6 @@ export async function getProductById(id: string) {
   return res.json();
 }
 
-// src/lib/products.ts
-
 export async function getCartProducts(): Promise<Product[]> {
   const res = await fetch("https://dummyjson.com/products", {
     cache: "no-store",
@@ -52,6 +51,26 @@ export async function getCartProducts(): Promise<Product[]> {
 
   const data = await res.json();
   return data.products || [];
+}
+
+export async function getCartedProducts() {
+  const cookieStore = await cookies();
+  const cartCookie = cookieStore.get("cart");
+
+  if (!cartCookie?.value) return [];
+
+  let cartIds: number[] = [];
+
+  try {
+    cartIds = JSON.parse(cartCookie.value);
+  } catch (error) {
+    console.error("Invalid cart cookie:", error);
+    return [];
+  }
+
+  const allProducts = await fetchProducts();
+
+  return allProducts.filter((p) => cartIds.includes(p.id));
 }
 
 export async function fetchProducts(): Promise<Product[]> {

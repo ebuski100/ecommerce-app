@@ -6,7 +6,7 @@ import Image from "next/image";
 
 import Link from "next/link";
 import AnimatedHeart from "@/components/AnimatedHeart";
-import Footer from "@/components/Footer";
+
 type Category = {
   slug: string;
   name: string;
@@ -222,7 +222,6 @@ const Home = async ({ activeCategory }: Props) => {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

@@ -5,6 +5,7 @@ import GoBack from "@/components/GoBack";
 import AnimatedCartButton from "@/components/AnimatedCartButton";
 import AnimatedHeart from "@/components/AnimatedHeart";
 import Link from "next/link";
+import { cookies } from "next/headers";
 
 export default async function CategoryPage({
   params,
@@ -14,6 +15,10 @@ export default async function CategoryPage({
   const resolvedParams = await params;
 
   const products = await fetchProductsByCategory(resolvedParams.category);
+  const cookieStore = await cookies();
+  const cartCookie = cookieStore.get("cart");
+
+  const cartIds: number[] = cartCookie ? JSON.parse(cartCookie.value) : [];
 
   if (products.length === 0) {
     return (
@@ -38,7 +43,11 @@ export default async function CategoryPage({
             className="relative p-2 rounded-xl shadow-md flex justify-center items-center border-t border-gray-300 cursor-pointer"
           >
             <div>
-              <AnimatedCartButton className="top-3 right-3 flex items-center " />
+              <AnimatedCartButton
+                product={product}
+                isInCart={cartIds.includes(product.id)}
+                className="top-3 right-3 flex items-center "
+              />
               <AnimatedHeart className="bottom-3 right-3" />
               <Image
                 src={product.images[0]}

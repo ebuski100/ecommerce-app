@@ -20,3 +20,10 @@ export type Category = {
   slug: string;
   name: string;
 };
+export type CartContextType = {
+  cartIds: number[];
+  addToCart: (id: number) => void;
+  removeFromCart: (id: number) => void;
+  toggleCart: (id: number) => void;
+  setCartIds: React.Dispatch<React.SetStateAction<number[]>>;
+};

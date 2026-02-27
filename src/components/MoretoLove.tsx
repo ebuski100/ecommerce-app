@@ -7,11 +7,12 @@ import { Product } from "@/types/product";
 import AnimatedCartButton from "@/components/AnimatedCartButton";
 import AnimatedHeart from "@/components/AnimatedHeart";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-type CartUIProps = {
+
+type MoreToLoveProps = {
   products: Product[];
+  cartIds: number[];
 };
-const MoretoLove = ({ products }: CartUIProps) => {
+const MoretoLove = ({ products, cartIds }: MoreToLoveProps) => {
   return (
     <div className="p-2 ">
       <h1 className="font-bold my-3 text-green-500">More to love</h1>
@@ -35,7 +36,11 @@ const MoretoLove = ({ products }: CartUIProps) => {
               />
             </div>
 
-            <AnimatedCartButton className="top-0 right-1 flex justify-center  items-center" />
+            <AnimatedCartButton
+              isInCart={cartIds.includes(product.id)}
+              product={product}
+              className="top-0 right-1 flex justify-center  items-center"
+            />
             <AnimatedHeart className="top-3 left-2" />
 
             <h2 className="font-medium text-green-500 mt-2">{product.title}</h2>
