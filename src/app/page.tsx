@@ -90,14 +90,14 @@ const Home = async ({ activeCategory }: Props) => {
             {ads.map((ad) => (
               <div
                 key={ad.id}
-                className="relative w-[500px] h-[300px] shrink-0  overflow-hidden"
+                className="relative w-[500px] h-[300px]   overflow-hidden  border"
               >
                 <Image
                   src={ad.img}
                   alt="ad"
-                  fill
+                  height={200}
+                  width={500}
                   className="object-cover"
-                  sizes="250px"
                 />
               </div>
             ))}

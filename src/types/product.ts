@@ -6,6 +6,7 @@ export type Product = {
   reviews: Review[];
   thumbnail: string;
   description: string;
+  isSuperDeal?: boolean;
 };
 export type Review = {
   rating: number;

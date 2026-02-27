@@ -13,9 +13,7 @@ import { fetchSingleProduct } from "@/lib/products";
 import { fetchProducts } from "@/lib/products";
 
 type PageProps = {
-  params: {
-    id: string;
-  };
+  params: { id: string };
 };
 
 export default async function ProductDetails({ params }: PageProps) {
@@ -26,6 +24,8 @@ export default async function ProductDetails({ params }: PageProps) {
   if (!product) {
     return <div className="p-10 text-center">Product not found</div>;
   }
+  const isDeal = product.isSuperDeal === true;
+  const discountedPrice = Math.round(product.price * 0.2);
   const averageRating =
     product.reviews.length > 0
       ? product.reviews.reduce(
@@ -57,8 +57,23 @@ export default async function ProductDetails({ params }: PageProps) {
             <AnimatedHeart className="bottom-3 right-3" />
 
             <GoBack className="top-5  left-3" />
-            <span className=" absolute text-green-600 bottom-3 left-3 text-xl mt-2">
-              ${product.price}
+
+            <span className="absolute bottom-3 left-3 text-xl mt-2">
+              {isDeal ? (
+                <div className="flex items-center gap-2">
+                  <span className="text-red-600 font-bold">
+                    ${discountedPrice}
+                  </span>
+                  <span className="line-through text-gray-400 text-sm">
+                    ${product.price}
+                  </span>
+                  <span className="bg-red-600 text-white text-xs px-2 py-1 rounded-md font-bold">
+                    -80%
+                  </span>
+                </div>
+              ) : (
+                <span className="text-green-600">${product.price}</span>
+              )}
             </span>
           </div>
 

@@ -4,6 +4,8 @@ import MoretoLove from "@/components/MoretoLove";
 import Share from "@/components/Share";
 import { getSpecProduct } from "@/lib/products";
 import Image from "next/image";
+import Link from "next/link";
+
 const SuperDeals = async () => {
   function getDailyRandomItems<T>(items: T[], count: number) {
     const seed = new Date().getDate();
@@ -17,7 +19,11 @@ const SuperDeals = async () => {
     return shuffled.slice(0, count);
   }
   const products = await getSpecProduct();
-  const superDeals = getDailyRandomItems(products, 6);
+
+  const superDeals = getDailyRandomItems(products, 6).map((product) => ({
+    ...product,
+    isSuperDeal: true,
+  }));
 
   return (
     <div className="mt-15 pb-30">
@@ -43,7 +49,8 @@ const SuperDeals = async () => {
           const discountedPrice = Math.round(product.price * 0.2); // 80% off
 
           return (
-            <div
+            <Link
+              href={`/products/${product.id}`}
               key={product.id}
               className="bg-white rounded-xl shadow-md p-3 relative"
             >
@@ -78,7 +85,7 @@ const SuperDeals = async () => {
                   -80%
                 </span>
               </div>
-            </div>
+            </Link>
           );
         })}
       </div>
